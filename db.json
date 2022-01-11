@@ -1,0 +1,94 @@
+{
+  "transactions": [
+    {
+      "date": "2021-05-03",
+      "week_day": "segunda",
+      "description": "teste",
+      "value": "234",
+      "category": "lazer",
+      "type": "credit",
+      "id": 1
+    },
+    {
+      "date": "2021-05-04",
+      "week_day": "terça",
+      "description": "teste2",
+      "value": "345",
+      "category": "compras",
+      "type": "debit",
+      "id": 2
+    },
+    {
+      "date": "2021-05-05",
+      "week_day": "quarta",
+      "description": "teste3",
+      "value": "645",
+      "category": "alimentação",
+      "type": "debit",
+      "id": 3
+    },
+    {
+      "date": "2021-05-06",
+      "week_day": "quinta",
+      "description": "teste4",
+      "value": "634",
+      "category": "lazer",
+      "type": "debit",
+      "id": 4
+    },
+    {
+      "date": "2021-05-07",
+      "week_day": "sexta",
+      "description": "teste5",
+      "value": "234",
+      "category": "pix",
+      "type": "credit",
+      "id": 5
+    },
+    {
+      "date": "2021-06-03",
+      "week_day": "quinta",
+      "description": "teste8",
+      "value": "854",
+      "category": "contas",
+      "type": "debit",
+      "id": 8
+    },
+    {
+      "date": "2021-12-10",
+      "week_day": "sexta",
+      "description": "teste9",
+      "value": "435",
+      "category": "depósito",
+      "type": "credit",
+      "id": 9
+    },
+    {
+      "date": "2015-02-11",
+      "week_day": "quarta",
+      "description": "Teste10",
+      "value": "546",
+      "category": "ted",
+      "type": "credit",
+      "id": 10
+    },
+    {
+      "date": "2021-07-14",
+      "week_day": "quarta",
+      "description": "teste11",
+      "value": "532",
+      "category": "depósito",
+      "type": "debit",
+      "id": 11
+    },
+    {
+      "date": "2021-08-19",
+      "week_day": "quinta",
+      "description": "teste12",
+      "value": "745",
+      "category": "alimentação",
+      "type": "credit",
+      "id": 12
+    }
+  ]
+}
