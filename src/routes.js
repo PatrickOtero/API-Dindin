@@ -13,7 +13,7 @@ const { loginVerification } = require('./middlewares/userValidation')
 const routes = Router()
 
 // // Users
-routes.get('/user/login', login)
+routes.post('/user/login', login)
 routes.post('/users', userCreation)
 
 // routes that needs authentication
