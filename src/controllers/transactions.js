@@ -50,15 +50,16 @@ const createTransaction = async (req, res) => {
     await createTransactionSchema.validate(req.body)
 
     const weekdays = [
-      'domingo',
-      'segunda',
-      'terça',
-      'quarta',
-      'quinta',
-      'sexta',
-      'sábado',
+      'Domingo',
+      'Segunda',
+      'Terça',
+      'Quarta',
+      'Quinta',
+      'Sexta',
+      'Sábado',
     ]
-    const weekday = registry_date.getDay()
+    const date = new Date(registry_date)
+    const weekday = date.getDay()
 
     const createRegistry = await knex('transactions').insert({
       description,
