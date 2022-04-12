@@ -2,6 +2,7 @@ const knex = require('../connection')
 const {
   dateFormatter,
   arrayPropertyValueFormatter,
+  totalAmountObtainer,
 } = require('../functions/formatters')
 const {
   createTransactionSchema,
@@ -14,10 +15,16 @@ const listTransactions = async (req, res) => {
   const { id } = req.user
   const allTransactions = await knex('transactions').where('user_id', id)
 
+  const { totalIncoming, totalOutgoing, balance } = totalAmountObtainer(
+    allTransactions,
+  )
+
   dateFormatter(allTransactions)
   arrayPropertyValueFormatter(allTransactions)
 
-  return res.status(200).json(allTransactions)
+  return res
+    .status(200)
+    .json({ allTransactions, totalIncoming, totalOutgoing, balance })
 }
 
 const detailTransaction = async (req, res) => {
