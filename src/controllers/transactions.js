@@ -1,5 +1,9 @@
 const knex = require('../connection')
 const {
+  dateFormatter,
+  arrayPropertyValueFormatter,
+} = require('../functions/formatters')
+const {
   createTransactionSchema,
 } = require('../validations/transactions/createTransactionSchema')
 const {
@@ -9,6 +13,9 @@ const {
 const listTransactions = async (req, res) => {
   const { id } = req.user
   const allTransactions = await knex('transactions').where('user_id', id)
+
+  dateFormatter(allTransactions)
+  arrayPropertyValueFormatter(allTransactions)
 
   return res.status(200).json(allTransactions)
 }
@@ -42,35 +49,30 @@ const createTransaction = async (req, res) => {
   try {
     await createTransactionSchema.validate(req.body)
 
-    if (registry_date) {
-      const createRegistryWithDate = await knex('transactions').insert({
-        description,
-        registry_value,
-        category,
-        registry_date,
-        registry_type,
-        user_id: id,
-      })
-
-      if (createRegistryWithDate.length)
-        return res
-          .status(400)
-          .json({ message: 'Não foi possível conectar ao banco de dados' })
-
-      return res.status(200).json({ message: 'Registro criado com sucesso!' })
-    }
+    const weekdays = [
+      'domingo',
+      'segunda',
+      'terça',
+      'quarta',
+      'quinta',
+      'sexta',
+      'sábado',
+    ]
+    const weekday = registry_date.getDay()
 
     const createRegistry = await knex('transactions').insert({
       description,
       registry_value,
       category,
+      registry_date,
+      week_day: weekdays[weekday],
       registry_type,
       user_id: id,
     })
 
     if (createRegistry.length)
       return res
-        .status(500)
+        .status(400)
         .json({ message: 'Não foi possível conectar ao banco de dados' })
 
     return res.status(200).json({ message: 'Registro criado com sucesso!' })
