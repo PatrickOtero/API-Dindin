@@ -7,7 +7,7 @@ const createTransactionSchema = yup.object().shape({
     .required("O campo 'descrição' é obrigatório")
     .trim(),
   category: yup.string().required("O campo 'categoria' é obrigatório").trim(),
-  registry_value: yup.number().required("O campo 'valor' é obrigatório"),
+  registry_value: yup.number().required("O campo 'valor' é obrigatório!"),
   registry_type: yup.string().trim(),
 })
 
