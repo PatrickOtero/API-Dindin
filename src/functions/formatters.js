@@ -15,15 +15,20 @@ const arrayPropertyValueFormatter = (array) => {
 }
 
 const totalAmountObtainer = (array) => {
-  let totalIncoming = 0
-  let totalOutgoing = 0
+  let incomingValue = 0
+  let outgoingValue = 0
 
   array.forEach((item) => {
-    if (item.registry_type === 'Incoming') totalIncoming += item.registry_value
-    if (item.registry_type === 'Outgoing') totalOutgoing += item.registry_value
+    if (item.registry_type === 'Incoming') incomingValue += item.registry_value
+    if (item.registry_type === 'Outgoing') outgoingValue += item.registry_value
   })
 
-  const balance = totalIncoming - totalOutgoing
+  const balanceValue = incomingValue - outgoingValue
+
+  const totalIncoming = `R$: ${incomingValue},00`
+  const totalOutgoing = `R$: ${outgoingValue},00`
+
+  const balance = `R$: ${balanceValue},00`
 
   return { totalIncoming, totalOutgoing, balance }
 }
