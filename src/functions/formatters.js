@@ -33,8 +33,15 @@ const totalAmountObtainer = (array) => {
   return { totalIncoming, totalOutgoing, balance }
 }
 
+const weekDayNumberRemover = (array) => {
+  array.forEach((registry) => {
+    registry.week_day = registry.week_day.slice(1, registry.week_day.length)
+  })
+}
+
 module.exports = {
   dateFormatter,
   arrayPropertyValueFormatter,
   totalAmountObtainer,
+  weekDayNumberRemover,
 }

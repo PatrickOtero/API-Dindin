@@ -3,6 +3,7 @@ const {
   dateFormatter,
   arrayPropertyValueFormatter,
   totalAmountObtainer,
+  weekDayNumberRemover,
 } = require('../functions/formatters')
 const {
   createTransactionSchema,
@@ -34,22 +35,18 @@ const listTransactions = async (req, res) => {
   dateFormatter(dateAscendent)
   arrayPropertyValueFormatter(dateAscendent)
 
-  const weekdays = [
-    'Domingo',
-    'Segunda',
-    'Terça',
-    'Quarta',
-    'Quinta',
-    'Sexta',
-    'Sábado',
-  ]
-
   const weekDescendent = await knex('transactions')
     .orderBy('week_day', 'desc')
     .where('user_id', id)
   const weekAscendent = await knex('transactions')
     .orderBy('week_day', 'asc')
     .where('user_id', id)
+
+  weekDayNumberRemover(weekDescendent)
+  weekDayNumberRemover(weekAscendent)
+  weekDayNumberRemover(dateDescendent)
+  weekDayNumberRemover(dateAscendent)
+  weekDayNumberRemover(allTransactions)
 
   dateFormatter(weekDescendent)
   arrayPropertyValueFormatter(weekDescendent)
