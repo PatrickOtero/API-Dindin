@@ -15,14 +15,12 @@ const listTransactions = async (req, res) => {
   const { id } = req.user
   const allTransactions = await knex('transactions').where('user_id', id)
 
-  const dateDescendent = await knex('transactions').orderBy(
-    'registry_date',
-    'desc',
-  )
-  const dateAscendent = await knex('transactions').orderBy(
-    'registry_date',
-    'asc',
-  )
+  const dateDescendent = await knex('transactions')
+    .orderBy('registry_date', 'desc')
+    .where('user_id', id)
+  const dateAscendent = await knex('transactions')
+    .orderBy('registry_date', 'asc')
+    .where('user_id', id)
 
   const { totalIncoming, totalOutgoing, balance } = totalAmountObtainer(
     allTransactions,
@@ -46,8 +44,12 @@ const listTransactions = async (req, res) => {
     'Sábado',
   ]
 
-  const weekDescendent = await knex('transactions').orderBy('week_day', 'desc')
-  const weekAscendent = await knex('transactions').orderBy('week_day', 'asc')
+  const weekDescendent = await knex('transactions')
+    .orderBy('week_day', 'desc')
+    .where('user_id', id)
+  const weekAscendent = await knex('transactions')
+    .orderBy('week_day', 'asc')
+    .where('user_id', id)
 
   dateFormatter(weekDescendent)
   arrayPropertyValueFormatter(weekDescendent)
