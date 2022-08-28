@@ -1,7 +1,6 @@
 const knex = require('../connection')
 const {
   dateFormatter,
-  arrayPropertyValueFormatter,
   totalAmountObtainer,
   weekDayNumberRemover,
 } = require('../functions/formatters')
@@ -14,72 +13,74 @@ const {
 
 const listTransactions = async (req, res) => {
   const { id } = req.user
-  const allTransactions = await knex('transactions').where('user_id', id)
+  
+  try {
+    const allTransactions = await knex('transactions').where('user_id', id)
 
-  const dateDescendent = await knex('transactions')
-    .orderBy('registry_date', 'desc')
-    .where('user_id', id)
-  const dateAscendent = await knex('transactions')
-    .orderBy('registry_date', 'asc')
-    .where('user_id', id)
+    const dateDescendent = await knex('transactions')
+      .orderBy('registry_date', 'desc')
+      .where('user_id', id)
+    const dateAscendent = await knex('transactions')
+      .orderBy('registry_date', 'asc')
+      .where('user_id', id)
 
-  const { totalIncoming, totalOutgoing, balance } = totalAmountObtainer(
-    allTransactions,
-  )
-  dateFormatter(allTransactions)
-  arrayPropertyValueFormatter(allTransactions)
+    const { totalIncoming, totalOutgoing, balance } = totalAmountObtainer(
+      allTransactions,
+    )
+    dateFormatter(allTransactions)
+    dateFormatter(dateDescendent)
+    dateFormatter(dateAscendent)
 
-  dateFormatter(dateDescendent)
-  arrayPropertyValueFormatter(dateDescendent)
+    const weekDescendent = await knex('transactions')
+      .orderBy('week_day', 'desc')
+      .where('user_id', id)
+    const weekAscendent = await knex('transactions')
+      .orderBy('week_day', 'asc')
+      .where('user_id', id)
 
-  dateFormatter(dateAscendent)
-  arrayPropertyValueFormatter(dateAscendent)
+    weekDayNumberRemover(weekDescendent)
+    weekDayNumberRemover(weekAscendent)
+    weekDayNumberRemover(dateDescendent)
+    weekDayNumberRemover(dateAscendent)
+    weekDayNumberRemover(allTransactions)
 
-  const weekDescendent = await knex('transactions')
-    .orderBy('week_day', 'desc')
-    .where('user_id', id)
-  const weekAscendent = await knex('transactions')
-    .orderBy('week_day', 'asc')
-    .where('user_id', id)
+    dateFormatter(weekDescendent)
+    dateFormatter(weekAscendent)
 
-  weekDayNumberRemover(weekDescendent)
-  weekDayNumberRemover(weekAscendent)
-  weekDayNumberRemover(dateDescendent)
-  weekDayNumberRemover(dateAscendent)
-  weekDayNumberRemover(allTransactions)
-
-  dateFormatter(weekDescendent)
-  arrayPropertyValueFormatter(weekDescendent)
-
-  dateFormatter(weekAscendent)
-  arrayPropertyValueFormatter(weekAscendent)
-
-  return res.status(200).json({
-    allTransactions,
-    dateDescendent,
-    dateAscendent,
-    weekDescendent,
-    weekAscendent,
-    totalIncoming,
-    totalOutgoing,
-    balance,
-  })
+    return res.status(200).json({
+      allTransactions,
+      dateDescendent,
+      dateAscendent,
+      weekDescendent,
+      weekAscendent,
+      totalIncoming,
+      totalOutgoing,
+      balance,
+    })
+  } catch (error) {
+    return res.status(400).json({message: error.message});
+  }
 }
 
 const detailTransaction = async (req, res) => {
   const { registryId } = req.params
   const { id } = req.user
-  const registry = await knex('transactions')
-    .where({
-      id: registryId,
-      user_id: id,
-    })
-    .first()
 
-  if (!registry)
-    return res.status(404).json({ message: 'Transação não encontrada' })
+  try {
+    const registry = await knex('transactions')
+      .where({
+        id: registryId,
+        user_id: id,
+      })
+      .first()
 
-  return res.status(200).json(registry)
+    if (!registry)
+      return res.status(404).json({ message: 'Transação não encontrada' })
+
+    return res.status(200).json(registry)
+  } catch (error) {
+    return res.status(400).json({message: error.message})
+  }
 }
 
 const createTransaction = async (req, res) => {
@@ -177,30 +178,34 @@ const deleteTransaction = async (req, res) => {
   const { registryId } = req.params
   const { id } = req.user
 
-  const registryExist = await knex('transactions')
-    .where({
-      id: registryId,
-      user_id: id,
-    })
-    .first()
+  try {
+    const registryExist = await knex('transactions')
+      .where({
+        id: registryId,
+        user_id: id,
+      })
+      .first()
 
-  if (!registryExist)
+    if (!registryExist)
+      return res
+        .status(404)
+        .json({ message: 'Transação não encontrada na sua lista.' })
+
+    const deletedRegistry = await knex('transactions')
+      .where({ id: registryId, user_id: id })
+      .del()
+
+    if (deletedRegistry.length)
+      return res
+        .status(500)
+        .json({ message: 'Não foi possível conectar-se com o banco de dados' })
+
     return res
-      .status(404)
-      .json({ message: 'Transação não encontrada na sua lista.' })
-
-  const deletedRegistry = await knex('transactions')
-    .where({ id: registryId, user_id: id })
-    .del()
-
-  if (deletedRegistry.length)
-    return res
-      .status(500)
-      .json({ message: 'Não foi possível conectar-se com o banco de dados' })
-
-  return res
-    .status(200)
-    .json({ message: 'A transação foi removida com sucesso.' })
+      .status(200)
+      .json({ message: 'A transação foi removida com sucesso.' })
+  } catch (error) {
+    return res.status(400).json({message: error.message})
+  }
 }
 
 module.exports = {
@@ -210,5 +215,3 @@ module.exports = {
   editTransaction,
   deleteTransaction,
 }
-
-

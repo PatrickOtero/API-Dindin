@@ -8,12 +8,6 @@ const dateFormatter = (array) => {
   })
 }
 
-const arrayPropertyValueFormatter = (array) => {
-  array.forEach((item) => {
-    item.registry_value = `R$${item.registry_value},00`
-  })
-}
-
 const totalAmountObtainer = (array) => {
   let incomingValue = 0
   let outgoingValue = 0
@@ -41,7 +35,6 @@ const weekDayNumberRemover = (array) => {
 
 module.exports = {
   dateFormatter,
-  arrayPropertyValueFormatter,
   totalAmountObtainer,
   weekDayNumberRemover,
 }

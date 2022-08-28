@@ -14,13 +14,13 @@ const routes = Router()
 
 // // Users
 routes.post('/user/login', login)
-routes.post('/users', userCreation)
+routes.post('/user/registration', userCreation)
 
 // routes that needs authentication
 routes.use(loginVerification)
 // users
-routes.put('/users', userEdit)
-routes.delete('/users', userDeletion)
+routes.put('/users/edit', userEdit)
+routes.delete('/users/delete', userDeletion)
 
 // transactions
 routes.get('/transactions', listTransactions)

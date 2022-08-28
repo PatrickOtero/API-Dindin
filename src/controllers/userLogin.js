@@ -14,7 +14,7 @@ const login = async (req, res) => {
 
     if (!user)
       return res
-        .status(401)
+        .status(400)
         .json({ message: 'Combinação de email e senha incorreta' })
 
     const validPassword = await bcrypt.compare(
@@ -24,7 +24,7 @@ const login = async (req, res) => {
 
     if (!validPassword)
       return res
-        .status(401)
+        .status(400)
         .json({ message: 'Combinação de email e senha incorreta' })
 
     const token = jwt.sign({ id: user.id }, hashPass, { expiresIn: '4h' })

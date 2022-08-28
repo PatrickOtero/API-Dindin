@@ -25,7 +25,6 @@ const loginVerification = async (req, res, next) => {
 
     next()
   } catch (error) {
-    console.log(error)
     return res.status(400).json(error.message)
   }
 }
