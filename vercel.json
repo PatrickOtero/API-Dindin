@@ -2,9 +2,9 @@
     "version": 1.5,
     "name": "dindin-api",
     "builds": [
-       { "src": "./src/index.js", "use": "@vercel/node" }
+       { "src": "src/index.js", "use": "@vercel/node" }
     ],
     "routes": [
-       { "src": "/(.*)", "dest": "./src/routes.js" }
+       { "src": "/(.*)", "dest": "src/routes.js" }
     ]
  }
