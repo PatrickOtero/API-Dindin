@@ -13,6 +13,7 @@ create table transactions (
   	registry_value float not null,
   	category varchar(15) not null,
   	registry_date date default now(),
+	week_day text not null,
   	description text not null,
   	user_id int not null references users (id)
 );
