@@ -20,7 +20,7 @@
       8° - Com o terminal aberto, digite os seguintes comandos:
         - git clone (com o método que você preferir, ou através do SSH ou HTTPS. Você tem acesso a isso no botão verde "Code" nesta mesma página)
       9° - Quando a pasta tiver sido totalmente baixada, entre na mesma através do terminal escrevendo os seguintes comandos:
-        - cd "Go-Barber-back-end"
+        - cd "API-Dindin"
 
 ### Terceira parte
 
